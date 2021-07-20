@@ -1,0 +1,18 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- name: verify
+  hosts: localhost
+
+  tasks:
+
+  - name: ensure that mysqld policy is complaining
+    shell: aa-status --json|jq '.profiles["/usr/sbin/ntpd"]'
+    register: _aa-status
+    
+  - name: assertions
+    assert:
+      that:
+      - __aa-status.stdout == 'enforce'
+
+...

@@ -1,0 +1,18 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- name: converge apparmor
+  hosts: localhost
+
+  environment:
+    http_proxy: http://ci-proxy:3128
+    https_proxy: http://ci-proxy:3128
+
+  roles:
+
+  - role: mafalb.apparmor.apparmor
+  - role: mafalb.apparmor.policy
+    name: /usr/sbin/mysqld
+    state: complain
+
+...

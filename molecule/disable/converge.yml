@@ -8,9 +8,19 @@
     http_proxy: http://ci-proxy:3128
     https_proxy: http://ci-proxy:3128
 
-  roles:
+  tasks:
 
-  - role: mafalb.apparmor.apparmor
-    state: disabled
+  - block:
+
+    - name: apparmor is present
+      include_role:
+        role: mafalb.apparmor.apparmor
+        state: disabled
+    
+    rescue:
+    
+    - assert:
+        that: ansible_os_family in ['RedHat', 'Rocky']
+        success_msg: "there is no apparmor support for RedHat"
 
 ...
