@@ -27,7 +27,6 @@ jobs:
       matrix:
 
         target:
-        - fedora34
         - c8s
         - debian9
         - debian10
