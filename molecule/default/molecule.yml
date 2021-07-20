@@ -21,7 +21,7 @@ lint: |
   ansible-test sanity
 
 platforms:
-- name: ci-${CI_HOSTNAME:-ubuntu20}
+- name: ${CI_HOSTNAME:-ci-ubuntu20}
   image: ${CI_IMAGE:-docker.io/ubuntu:focal}
   command: /lib/systemd/systemd
   network_mode: bridge
