@@ -6,6 +6,12 @@
     that:
     - state in [ 'disabled', 'enforcing', 'permissive' ]
 
+- name: apparmor is present
+  package:
+    name: "{{ packages }}"
+  when:
+  - not ansible_os_family in ['RedHat', 'Rocky']
+
 - name: include_tasks for state
   include_tasks: "{{ state }}.yml"
   when:

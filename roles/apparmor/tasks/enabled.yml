@@ -1,10 +1,6 @@
 # vim: set ft=yaml ts=2 expandtab:
 ---
 
-- name: apparmor is present
-  package:
-    name: "{{ packages }}"
-
 - name: apparmor is enabled
   service:
     name: "{{ service }}"
