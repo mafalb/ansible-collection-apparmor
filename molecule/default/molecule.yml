@@ -17,7 +17,8 @@ lint: |
   ! grep -r "no_log: false" .
   ansible-lint -v
   ansible-lint roles/*/vars/*.yml
-  flake8 -v
+  flake8 -v --exclude tests/
+  ansible-test sanity
 
 platforms:
 - name: ci-${CI_HOSTNAME:-ubuntu20}
