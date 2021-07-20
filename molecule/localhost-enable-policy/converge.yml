@@ -11,8 +11,12 @@
   roles:
 
   - role: mafalb.apparmor.apparmor
-  - role: mafalb.apparmor.policy
-    name: /usr/sbin/mysqld
-    state: enforce
+
+  tasks:
+
+  - name: mysqld policy is enforcing
+    mafalb.apparmor.policy:
+      name: /usr/sbin/mysqld
+      state: enforce
 
 ...

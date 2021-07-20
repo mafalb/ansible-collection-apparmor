@@ -4,15 +4,22 @@
 - name: verify
   hosts: localhost
 
+  module_defaults:
+    shell:
+      executable: /bin/bash
+
   tasks:
 
   - name: ensure that mysqld policy is complaining
-    shell: aa-status --json|jq '.profiles["/usr/sbin/ntpd"]'
-    register: _aa-status
+    shell: |
+      set -o pipefail
+      aa-status --json|jq '.profiles["/usr/sbin/mysqld"]'
+    register: _aa_status
+    changed_when: false
     
   - name: assertions
     assert:
       that:
-      - __aa-status.stdout == 'enforce'
+      - _aa_status.stdout == 'enforce'
 
 ...

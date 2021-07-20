@@ -18,7 +18,7 @@ lint: |
   ansible-lint -v
   ansible-lint roles/*/vars/*.yml
   flake8 -v --exclude tests/
-  ansible-test sanity
+  ansible-test sanity --skip-test ansible-doc
 
 platforms:
 - name: ${CI_HOSTNAME:-ci-ubuntu20}

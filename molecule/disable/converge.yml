@@ -12,14 +12,16 @@
 
   - block:
 
-    - name: apparmor is present
+    - name: apparmor is disabled
       include_role:
-        role: mafalb.apparmor.apparmor
+        name: mafalb.apparmor.apparmor
+      vars:
         state: disabled
     
     rescue:
     
-    - assert:
+    - name: assertions
+      assert:
         that: ansible_os_family in ['RedHat', 'Rocky']
         success_msg: "there is no apparmor support for RedHat"
 
