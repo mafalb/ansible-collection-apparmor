@@ -27,6 +27,7 @@ jobs:
       matrix:
 
         target:
+        - fedora34
         - c8s
         - debian9
         - debian10
@@ -42,9 +43,7 @@ jobs:
         include:
 
         - target: c8s
-          distribution: centos
-          registry: "quay.io/centos/"
-          version: stream8
+          image: "quay.io/centos:stream8"
 
         - target: debian9
           image: docker.io/debian:stretch
@@ -100,5 +99,11 @@ jobs:
       run: |
         source ~/.virtualenvs/molecule/bin/activate
         molecule test -s disable
+
+    - name: test mafalb.apparmor.policy
+      run: |
+        source ~/.virtualenvs/molecule/bin/activate
+        molecule test -s localhost-disable-policy
+        molecule test -s localhost-enable-policy
 
 ...
