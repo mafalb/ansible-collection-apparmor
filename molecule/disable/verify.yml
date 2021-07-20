@@ -1,0 +1,9 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- name: verify
+  hosts: all,!infrastructure_group
+
+  tasks: []
+  
+...

@@ -1,0 +1,14 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- name: assertions
+  assert:
+    that:
+    - state in [ 'disabled', 'enforcing', 'permissive' ]
+
+- name: include_tasks for state
+  include_tasks: "{{ state }}.yml"
+  when:
+  - not ansible_os_family in ['RedHat', 'Rocky']
+
+...

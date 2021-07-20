@@ -1,0 +1,9 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- name: apparmor is disabled
+  service:
+    name: "{{ service }}"
+    state: stopped
+
+...
