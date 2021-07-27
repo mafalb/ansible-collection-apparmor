@@ -3,25 +3,16 @@
 
 - name: converge apparmor
   hosts: localhost
+  become: true
 
   environment:
     http_proxy: http://ci-proxy:3128
     https_proxy: http://ci-proxy:3128
 
+  roles:
+  - mafalb.apparmor.apparmor
+
   tasks:
-
-  - block:
-
-    - name: apparmor is enabled
-      include_role:
-        name: mafalb.apparmor.apparmor
-    
-    rescue:
-    
-    - name: assertions
-      assert:
-        that: ansible_os_family in ['RedHat', 'Rocky']
-        success_msg: "there is no apparmor support for RedHat"
 
   - name: mysqld policy is complaining
     mafalb.apparmor.profile:
