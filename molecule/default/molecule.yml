@@ -79,6 +79,11 @@ provisioner:
       bin_ansible_callbacks: true
   lint:
     name: ansible-lint
+  inventory:
+    host_vars:
+      localhost:
+        ansible_python_interpreter: python3
+      
 
 verifier:
   name: ansible
