@@ -5,10 +5,6 @@
   hosts: localhost
   become: true
 
-  environment:
-    http_proxy: http://ci-proxy:3128
-    https_proxy: http://ci-proxy:3128
-
   roles:
   - mafalb.apparmor.apparmor
     
