@@ -1,0 +1,26 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- name: verify
+  hosts: localhost
+  become: true
+
+  module_defaults:
+    shell:
+      executable: /bin/bash
+
+  tasks:
+
+  - name: ensure that mysqld policy is complaining
+    shell: |
+      set -o pipefail
+      /usr/sbin/aa-status --json|jq '.profiles["/usr/sbin/mysqld"]'
+    register: _aa_status
+    changed_when: false
+    
+  - name: assertions
+    assert:
+      that:
+      - _aa_status.stdout == '"enforce"'
+
+...

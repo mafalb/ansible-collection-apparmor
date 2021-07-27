@@ -3,6 +3,7 @@
 
 packages:
 - apparmor
+- apparmor-utils
 
 service: apparmor
 

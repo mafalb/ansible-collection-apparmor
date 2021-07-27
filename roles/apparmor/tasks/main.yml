@@ -5,10 +5,13 @@
   assert:
     that:
     - state in [ 'disabled', 'enforcing', 'permissive' ]
+    - not ansible_os_family in ['RedHat', 'Rocky']
+
+- name: apparmor is present
+  package:
+    name: "{{ packages }}"
 
 - name: include_tasks for state
   include_tasks: "{{ state }}.yml"
-  when:
-  - not ansible_os_family in ['RedHat', 'Rocky']
 
 ...

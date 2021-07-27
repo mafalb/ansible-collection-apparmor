@@ -1,0 +1,18 @@
+# vim: set ft=yaml ts=2 expandtab:
+---
+
+- name: converge apparmor
+  hosts: localhost
+  become: true
+
+  roles:
+  - mafalb.apparmor.apparmor
+    
+  tasks:
+
+  - name: mysqld policy is enforcing
+    mafalb.apparmor.profile:
+      name: /usr/sbin/mysqld
+      state: enforce
+
+...

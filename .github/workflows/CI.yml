@@ -33,6 +33,7 @@ jobs:
         - ubuntu16
         - ubuntu18
         - ubuntu20
+        - ubuntu2104
 
         ansible_version:
         - '2.9'
@@ -42,9 +43,7 @@ jobs:
         include:
 
         - target: c8s
-          distribution: centos
-          registry: "quay.io/centos/"
-          version: stream8
+          image: quay.io/centos/centos:stream8
 
         - target: debian9
           image: docker.io/debian:stretch
@@ -56,6 +55,8 @@ jobs:
           image: docker.io/ubuntu:bionic
         - target: ubuntu20
           image: docker.io/ubuntu:focal
+        - target: ubuntu2104
+          image: docker.io/ubuntu:hirsute
 
     env:
       
@@ -77,15 +78,11 @@ jobs:
       with:
         path: ansible_collections/mafalb/apparmor
 
-    # use the github actions ansible
-    #
     - name: install molecule
       run: |
         ansible-galaxy collection install mafalb.ansible
         ansible-playbook -e ansible_python_interpreter=python3 -D ~/.ansible/collections/ansible_collections/mafalb/ansible/playbooks/molecule.yml -e molecule_ansible_version=${{ matrix.ansible_version }} -t all,debug
 
-    # use our ansible
-    #
     - name: check ansible version
       run: |
         source ~/.virtualenvs/molecule/bin/activate
@@ -95,5 +92,16 @@ jobs:
       run: |
         source ~/.virtualenvs/molecule/bin/activate
         molecule test
+
+    - name: molecule disable scenario
+      run: |
+        source ~/.virtualenvs/molecule/bin/activate
+        molecule test -s disable
+
+    - name: test mafalb.apparmor.policy
+      run: |
+        source ~/.virtualenvs/molecule/bin/activate
+        molecule test -s localhost_disable_profile
+        molecule test -s localhost_enable_profile
 
 ...

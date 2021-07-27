@@ -17,10 +17,11 @@ lint: |
   ! grep -r "no_log: false" .
   ansible-lint -v
   ansible-lint roles/*/vars/*.yml
-  flake8 -v
+  flake8 -v --exclude tests/
+  ansible-test sanity --skip-test ansible-doc
 
 platforms:
-- name: ci-${CI_HOSTNAME:-ubuntu20}
+- name: ${CI_HOSTNAME:-ci-ubuntu20}
   image: ${CI_IMAGE:-docker.io/ubuntu:focal}
   command: /lib/systemd/systemd
   network_mode: bridge
@@ -78,6 +79,11 @@ provisioner:
       bin_ansible_callbacks: true
   lint:
     name: ansible-lint
+  inventory:
+    host_vars:
+      localhost:
+        ansible_python_interpreter: python3
+      
 
 verifier:
   name: ansible
