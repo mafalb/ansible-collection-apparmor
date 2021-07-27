@@ -1,4 +1,1 @@
 warn_list: []
-exclude_paths:
-- molecule/localhost-enable-policy/converge.yml
-- molecule/localhost-disable-policy/converge.yml

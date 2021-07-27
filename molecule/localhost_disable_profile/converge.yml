@@ -9,13 +9,12 @@
     https_proxy: http://ci-proxy:3128
 
   roles:
-
   - role: mafalb.apparmor.apparmor
 
   tasks:
 
   - name: mysqld policy is complaining
-    mafalb.apparmor.policy:
+    mafalb.apparmor.profile:
       name: /usr/sbin/mysqld
       state: complain
 
