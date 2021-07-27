@@ -3,6 +3,7 @@
 
 - name: verify
   hosts: localhost
+  become: true
 
   module_defaults:
     shell:
@@ -13,7 +14,7 @@
   - name: ensure that mysqld policy is complaining
     shell: |
       set -o pipefail
-      aa-status --json|jq '.profiles["/usr/sbin/mysqld"]'
+      /usr/sbin/aa-status --json|jq '.profiles["/usr/sbin/mysqld"]'
     register: _aa_status
     changed_when: false
     
