@@ -25,6 +25,6 @@
   - name: assertions
     assert:
       that:
-      - _aa_status.stdout == 'complain'
+      - _aa_status.stdout == '"complain"'
 
 ...

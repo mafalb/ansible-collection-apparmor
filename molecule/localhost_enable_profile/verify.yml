@@ -21,6 +21,6 @@
   - name: assertions
     assert:
       that:
-      - _aa_status.stdout == 'enforce'
+      - _aa_status.stdout == '"enforce"'
 
 ...
