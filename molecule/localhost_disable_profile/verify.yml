@@ -18,6 +18,10 @@
     register: _aa_status
     changed_when: false
     
+  - name: debug
+    debug:
+      var: _aa_status
+
   - name: assertions
     assert:
       that:
