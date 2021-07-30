@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# vim: set ft=python:
 
 # This file is part of Ansible collection mafalb.apparmor
 # Copyright (c) 2021 Markus Falb <markus.falb@mafalb.at>
@@ -132,17 +133,18 @@ def run_module():
 
     # get the status of the profile
     #
-    result['original_state'] = get_profile_state(module.params['name'], module, result)  # noqa E504
+    result['original_state'] = get_profile_state(module.params['name'], module, result)  # noqa E501
     if module.check_mode:
         # return if in check mode
         module.exit_json(**result)
-
-    if module.params['state'] != result['original_state']:
+    if result['original_state'] != module.params['state']:
+        # state is not what we want
         rc, out, err = module.run_command([commands[module.params['state']],
                                           module.params['name']],
                                           check_rc=True)
-    	profile_state = get_profile_state(module.params['name'], module, result)
-    	if profile_state != module.params['state']:
+        profile_state = get_profile_state(module.params['name'], module, result)  # noqa E501
+        if profile_state != module.params['state']:
+            # state ist still not what we want
             module.fail_json(msg="setting state '%s' failed: actual state %s"
                              % (module.params['state'], profile_state),
                              **result)
