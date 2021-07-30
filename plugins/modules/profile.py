@@ -141,13 +141,13 @@ def run_module():
         rc, out, err = module.run_command([commands[module.params['state']],
                                           module.params['name']],
                                           check_rc=True)
-    profile_state = get_profile_state(module.params['name'], module, result)
-    if profile_state != module.params['state']:
-        module.fail_json(msg="setting state '%s' failed: actual state %s"
+    	profile_state = get_profile_state(module.params['name'], module, result)
+    	if profile_state != module.params['state']:
+            module.fail_json(msg="setting state '%s' failed: actual state %s"
                              % (module.params['state'], profile_state),
-                         **result)
-    result['state'] = module.params['state']
-    result['changed'] = True
+                             **result)
+        result['state'] = module.params['state']
+        result['changed'] = True
 
     # in the event of a successful module execution, you will want to
     # simple AnsibleModule.exit_json(), passing the key/value results
