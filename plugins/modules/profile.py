@@ -132,11 +132,11 @@ def run_module():
 
     # get the status of the profile
     #
-    result['original_state'] = get_profile_state(module.params['name'],
-                                                 module, result)
+    result['original_state'] = get_profile_state(module.params['name'], module, result)  # noqa E504
     if module.check_mode:
         # return if in check mode
         module.exit_json(**result)
+
     if module.params['state'] != result['original_state']:
         rc, out, err = module.run_command([commands[module.params['state']],
                                           module.params['name']],
