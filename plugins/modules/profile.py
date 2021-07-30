@@ -60,7 +60,6 @@ EXAMPLES = r'''
   mafalb.apparmor.profile:
     name: 'usr.sbin.mysql'
     state: enforce
-
 '''
 
 RETURN = r'''
@@ -78,6 +77,19 @@ state:
 
 from ansible.module_utils.basic import AnsibleModule  # noqa: E402
 import json                                           # noqa: E402
+
+
+# get the status of a profile
+#
+def get_profile_state(profile, module, result):
+    status_cmd = '/usr/sbin/aa-status'
+    rc, out, err = module.run_command([status_cmd, '--json'],
+                                      check_rc=True)
+    aa_status = json.loads(out)
+    if profile not in aa_status['profiles']:
+        # the profile is not known to apparmor
+        module.fail_json(msg="unknown profile '%s'" % profile, **result)
+    return aa_status['profiles'][profile]
 
 
 def run_module():
@@ -120,28 +132,22 @@ def run_module():
 
     # get the status of the profile
     #
-    rc, out, err = module.run_command(['/usr/sbin/aa-status', '--json'],
-                                      check_rc=True)
-    aa_status = json.loads(out)
-    if not module.params['name'] in aa_status['profiles']:
-        module.fail_json(msg="unknown profile '%s'" % module.params['name'],
-                         **result)
-    aa_status = aa_status['profiles'][module.params['name']]
-
-    result['original_state'] = aa_status
-
-    # if the user is working with this module in only check mode we do not
-    # want to make any changes to the environment, just return the current
-    # state with no modifications
+    result['original_state'] = get_profile_state(module.params['name'],
+                                                 module, result)
     if module.check_mode:
+        # return if in check mode
         module.exit_json(**result)
-
-    if module.params['state'] != aa_status:
+    if module.params['state'] != result['original_state']:
         rc, out, err = module.run_command([commands[module.params['state']],
-                                           module.params['name']],
+                                          module.params['name']],
                                           check_rc=True)
-        result['state'] = module.params['state']
-        result['changed'] = True
+    profile_state = get_profile_state(module.params['name'], module, result)
+    if profile_state != module.params['state']:
+        module.fail_json(msg="setting state '%s' failed: actual state %s"
+                             % (module.params['state'], profile_state),
+                         **result)
+    result['state'] = module.params['state']
+    result['changed'] = True
 
     # in the event of a successful module execution, you will want to
     # simple AnsibleModule.exit_json(), passing the key/value results
