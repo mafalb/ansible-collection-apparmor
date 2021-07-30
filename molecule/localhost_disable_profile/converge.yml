@@ -14,5 +14,10 @@
     mafalb.apparmor.profile:
       name: /usr/sbin/mysqld
       state: complain
+    register: _profile
+
+  - name: debug
+    debug:
+      var: _profile
 
 ...
