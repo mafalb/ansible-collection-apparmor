@@ -133,7 +133,9 @@ def run_module():
 
     # get the status of the profile
     #
-    result['original_state'] = get_profile_state(module.params['name'], module, result)  # noqa E501
+    result['original_state'] = get_profile_state(module.params['name'],
+                                                 module,
+                                                 result)
     if module.check_mode:
         # return if in check mode
         module.exit_json(**result)
@@ -142,7 +144,9 @@ def run_module():
         rc, out, err = module.run_command([commands[module.params['state']],
                                           module.params['name']],
                                           check_rc=True)
-        profile_state = get_profile_state(module.params['name'], module, result)  # noqa E501
+        profile_state = get_profile_state(module.params['name'],
+                                          module,
+                                          result)
         if profile_state != module.params['state']:
             # state ist still not what we want
             module.fail_json(msg="setting state '%s' failed: actual state %s"
