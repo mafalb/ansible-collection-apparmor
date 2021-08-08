@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# vim: set ft=python:
+# vim: set ft=python ts=4 expandtab:
 
 # This file is part of Ansible collection mafalb.apparmor
 # Copyright (c) 2021 Markus Falb <markus.falb@mafalb.at>
@@ -83,6 +83,15 @@ import json                                           # noqa: E402
 # get the status of a profile
 #
 def get_profile_state(profile, module, result):
+    """Return the current mode of a apparmor profile.
+
+    Parameters:
+    - the profile name - string
+    - the module object - AnsibleModule
+    - result - dictionary
+
+    Return the current mode as a string.
+    """
     status_cmd = '/usr/sbin/aa-status'
     rc, out, err = module.run_command([status_cmd, '--json'],
                                       check_rc=True)
