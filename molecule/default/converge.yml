@@ -15,9 +15,9 @@
     - name: apparmor is enabled
       include_role:
         name: mafalb.apparmor.apparmor
-    
+
     rescue:
-    
+
     - name: assertions
       assert:
         that: ansible_os_family in ['RedHat', 'Rocky']

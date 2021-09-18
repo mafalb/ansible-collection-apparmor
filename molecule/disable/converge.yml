@@ -17,9 +17,9 @@
         name: mafalb.apparmor.apparmor
       vars:
         state: disabled
-    
+
     rescue:
-    
+
     - name: assertions
       assert:
         that: ansible_os_family in ['RedHat', 'Rocky']

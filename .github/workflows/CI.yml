@@ -59,14 +59,14 @@ jobs:
           image: docker.io/ubuntu:hirsute
 
     env:
-      
+
       ANSIBLE_VERSION: ${{ matrix.ansible_version }}
       CI_IMAGE: ${{ matrix.image }}
       CI_HOSTNAME: ci-${{ matrix.target }}
       CI_PRIVILEGED: ${{ matrix.privileged }}
       PY_COLORS: 1
       ANSIBLE_FORCE_COLOR: 1
- 
+
     defaults:
       run:
         working-directory: ansible_collections/mafalb/apparmor

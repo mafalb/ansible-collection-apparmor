@@ -17,7 +17,7 @@
       /usr/sbin/aa-status --json|jq '.profiles["/usr/sbin/mysqld"]'
     register: _aa_status
     changed_when: false
-    
+
   - name: assertions
     assert:
       that:

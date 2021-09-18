@@ -4,7 +4,7 @@
 dependency:
   name: galaxy
   options:
-    role-file: idontexist.yml   # avoid warning while running molecule 
+    role-file: idontexist.yml   # avoid warning while running molecule
     requirements-file: molecule/default/requirements.yml
 
 driver:
@@ -83,7 +83,7 @@ provisioner:
     host_vars:
       localhost:
         ansible_python_interpreter: python3
-      
+
 
 verifier:
   name: ansible
