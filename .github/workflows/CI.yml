@@ -46,17 +46,19 @@ jobs:
           image: quay.io/centos/centos:stream8
 
         - target: debian9
-          image: docker.io/debian:stretch
+          image: docker.io/debian:9
         - target: debian10
-          image: docker.io/debian:buster
+          image: docker.io/debian:10
+        - target: debian11
+          image: docker.io/debian:11
         - target: ubuntu16
-          image: docker.io/ubuntu:xenial
+          image: docker.io/ubuntu:1604
         - target: ubuntu18
-          image: docker.io/ubuntu:bionic
+          image: docker.io/ubuntu:1804
         - target: ubuntu20
-          image: docker.io/ubuntu:focal
+          image: docker.io/ubuntu:2004
         - target: ubuntu2104
-          image: docker.io/ubuntu:hirsute
+          image: docker.io/ubuntu:2104
 
     env:
 
