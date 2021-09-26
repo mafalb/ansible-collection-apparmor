@@ -22,7 +22,7 @@ lint: |
 
 platforms:
 - name: ${CI_HOSTNAME:-ci-ubuntu20}
-  image: ${CI_IMAGE:-docker.io/ubuntu:2004}
+  image: ${CI_IMAGE:-docker.io/ubuntu:20.04}
   command: /lib/systemd/systemd
   network_mode: bridge
   docker_networks:
@@ -45,7 +45,7 @@ platforms:
   - ci_group
 
 - name: ci-proxy
-  image: docker.io/ubuntu:2004
+  image: docker.io/ubuntu:20.04
   command: /lib/systemd/systemd
   network_mode: bridge
   networks:

@@ -52,13 +52,13 @@ jobs:
         - target: debian11
           image: docker.io/debian:11
         - target: ubuntu16
-          image: docker.io/ubuntu:1604
+          image: docker.io/ubuntu:16.04
         - target: ubuntu18
-          image: docker.io/ubuntu:1804
+          image: docker.io/ubuntu:18.04
         - target: ubuntu20
-          image: docker.io/ubuntu:2004
+          image: docker.io/ubuntu:20.04
         - target: ubuntu2104
-          image: docker.io/ubuntu:2104
+          image: docker.io/ubuntu:21.04
 
     env:
 
