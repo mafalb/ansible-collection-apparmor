@@ -7,11 +7,17 @@
   pre_tasks:
 
   # https://github.com/geerlingguy/ansible-role-composer/issues/54
+  # note that older systemd has no --wait
+  # therefore the loop
   #
-  - name: get status of systemd-tmpfiles-setup.service # noqa 303
-    command: systemctl status systemd-tmpfiles-setup.service
-    when: ansible_service_mgr == 'systemd'
+  - name: Wait for systemd to complete initialization. # noqa 303
+    command: systemctl is-system-running --wait
+    register: _has_booted
+    until: _has_booted.stdout in ['running','degraded']
+    retries: 120
+    delay: 1
     changed_when: false
+    failed_when: false
 
   roles:
 
