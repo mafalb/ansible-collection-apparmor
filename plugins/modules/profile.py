@@ -98,7 +98,9 @@ def get_profile_state(profile, module, result):
     aa_status = json.loads(out)
     if profile not in aa_status['profiles']:
         # the profile is not known to apparmor
-        module.fail_json(msg="unknown profile '%s'" % profile, **result)
+        module.fail_json(
+            msg="unknown profile '{0}'".format(profile),
+            **result)
     return aa_status['profiles'][profile]
 
 
@@ -137,9 +139,10 @@ def run_module():
     # check if we implemented the requested state
     #
     if (module.params['state'] not in commands):
-        module.fail_json(msg="Unknown state '%s' requested or not implemented"
-                         % module.params['state'], **result)
-
+        module.fail_json(
+            msg="Unknown state '{0}' requested or not implemented".format(
+                module.params['state']),
+            **result)
     # get the status of the profile
     #
     result['original_state'] = get_profile_state(module.params['name'],
@@ -158,9 +161,10 @@ def run_module():
                                           result)
         if profile_state != module.params['state']:
             # state ist still not what we want
-            module.fail_json(msg="setting state '%s' failed: actual state %s"
-                             % (module.params['state'], profile_state),
-                             **result)
+            module.fail_json(
+                msg="setting state '{0}' failed: actual state {1}".format(
+                    module.params['state'], profile_state),
+                **result)
         result['state'] = module.params['state']
         result['changed'] = True
 
