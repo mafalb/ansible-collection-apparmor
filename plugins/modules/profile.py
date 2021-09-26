@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# vim: set ft=python:
+# vim: set ft=python ts=4 expandtab:
 
 # This file is part of Ansible collection mafalb.apparmor
 # Copyright (c) 2021 Markus Falb <markus.falb@mafalb.at>
@@ -83,13 +83,24 @@ import json                                           # noqa: E402
 # get the status of a profile
 #
 def get_profile_state(profile, module, result):
+    """Return the current mode of a apparmor profile.
+
+    Parameters:
+    - the profile name - string
+    - the module object - AnsibleModule
+    - result - dictionary
+
+    Return the current mode as a string.
+    """
     status_cmd = '/usr/sbin/aa-status'
     rc, out, err = module.run_command([status_cmd, '--json'],
                                       check_rc=True)
     aa_status = json.loads(out)
     if profile not in aa_status['profiles']:
         # the profile is not known to apparmor
-        module.fail_json(msg="unknown profile '%s'" % profile, **result)
+        module.fail_json(
+            msg="unknown profile '{0}'".format(profile),
+            **result)
     return aa_status['profiles'][profile]
 
 
@@ -128,12 +139,15 @@ def run_module():
     # check if we implemented the requested state
     #
     if (module.params['state'] not in commands):
-        module.fail_json(msg="Unknown state '%s' requested or not implemented"
-                         % module.params['state'], **result)
-
+        module.fail_json(
+            msg="Unknown state '{0}' requested or not implemented".format(
+                module.params['state']),
+            **result)
     # get the status of the profile
     #
-    result['original_state'] = get_profile_state(module.params['name'], module, result)  # noqa E501
+    result['original_state'] = get_profile_state(module.params['name'],
+                                                 module,
+                                                 result)
     if module.check_mode:
         # return if in check mode
         module.exit_json(**result)
@@ -142,12 +156,15 @@ def run_module():
         rc, out, err = module.run_command([commands[module.params['state']],
                                           module.params['name']],
                                           check_rc=True)
-        profile_state = get_profile_state(module.params['name'], module, result)  # noqa E501
+        profile_state = get_profile_state(module.params['name'],
+                                          module,
+                                          result)
         if profile_state != module.params['state']:
             # state ist still not what we want
-            module.fail_json(msg="setting state '%s' failed: actual state %s"
-                             % (module.params['state'], profile_state),
-                             **result)
+            module.fail_json(
+                msg="setting state '{0}' failed: actual state {1}".format(
+                    module.params['state'], profile_state),
+                **result)
         result['state'] = module.params['state']
         result['changed'] = True
 

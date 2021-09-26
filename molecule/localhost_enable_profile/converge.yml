@@ -7,7 +7,7 @@
 
   roles:
   - mafalb.apparmor.apparmor
-    
+
   tasks:
 
   - name: mysqld policy is enforcing
